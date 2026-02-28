@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Cinematic Cost Matrix 🎬</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>AI Cinematic Cost Matrix 📊🎬</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f0f4f8;
+            /* 升级为更有科技感的色调：极光蓝紫色系 */
+            --bg-color: #f8fafc;
             --panel-bg: #ffffff;
-            --text-main: #2c3e50;
-            --text-sub: #7f8c8d;
-            --primary: #3498db;
-            --primary-light: #e6f2fa;
-            --border: #dfe6ee;
-            --radius: 10px;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --primary: #6366f1; /* 现代感十足的靛蓝色 */
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --accent: #22d3ee; /* 电子青色点缀 */
+            --border: #e2e8f0;
+            --radius: 16px;
+            --max-width: 700px; /* 统一宽度标准 */
         }
 
         body {
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             display: flex;
@@ -26,141 +29,159 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
             box-sizing: border-box;
+            /* 细腻的现代背景网格 */
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
         }
 
-        /* ⬇️ 图片适配核心 CSS ⬇️ */
+        /* ⬇️ 头图：宽度锁定为 700px ⬇️ */
         .header-image {
             width: 100%;
-            max-width: 700px; /* 电脑上最大宽度 */
+            max-width: var(--max-width);
             height: auto;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             border-radius: var(--radius);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        /* ⬆️ 图片适配核心 CSS ⬆️ */
-
-        /* 科技感网格背景 */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: linear-gradient(0deg, transparent 9%, rgba(0,0,0,.04) 10%, rgba(0,0,0,.04) 12%, transparent 13%),
-                              linear-gradient(90deg, transparent 9%, rgba(0,0,0,.04) 10%, rgba(0,0,0,.04) 12%, transparent 13%);
-            background-size: 50px 50px;
-            opacity: 0.3;
-            z-index: -1;
+            /* 去掉生硬的投影，改用柔和的质感 */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
 
+        /* ⬇️ 面板：宽度与头图完全一致 ⬇️ */
         .container {
             background: var(--panel-bg);
-            padding: 35px;
+            padding: 40px;
             border-radius: var(--radius);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
             width: 100%;
-            max-width: 480px;
+            max-width: var(--max-width);
             border: 1px solid var(--border);
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 0.6s ease-out;
             box-sizing: border-box;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
             text-align: center;
-            color: var(--primary);
-            margin-bottom: 30px;
-            font-size: 1.6rem;
-            font-weight: 600;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 32px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        .group { margin-bottom: 1.5rem; }
+        .group { margin-bottom: 24px; }
         
         label { 
             display: block; 
-            font-size: 0.8rem; 
-            margin-bottom: 0.6rem; 
+            font-size: 0.85rem; 
+            margin-bottom: 8px; 
             color: var(--text-sub);
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         select, input { 
             width: 100%; 
-            padding: 12px 15px; 
+            padding: 14px 18px; 
             border: 1px solid var(--border); 
-            border-radius: var(--radius); 
+            border-radius: 12px; 
             font-size: 1rem; 
-            background: var(--primary-light);
+            background: #fcfcfd;
             color: var(--text-main);
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             box-sizing: border-box;
             -webkit-appearance: none;
             appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%233498db%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13%205.1L146.2%20200.2%2018.3%2074.5a17.6%2017.6%200%200%200-25.3%2023.7l137.4%20137.2c.7.7%201.7%201.2%202.6%201.6l1.3.8c.8.5%201.7.9%202.7%201.2s2.1.4%203.2.4%202.1-.1%203.2-.4c1-.3%201.9-.7%202.7-1.2l1.3-.8c.9-.4%201.9-.9%202.6-1.6L299.4%2098.2a17.6%2017.6%200%200%200-12.9-28.8z%22%2F%3E%3C%2Fsvg%3E');
+            /* 自定义箭头图标 */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 12px;
+            background-position: right 16px center;
+            background-size: 18px;
         }
 
         select:focus, input:focus { 
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
             background-color: white;
         }
 
+        /* ⬇️ 结果卡片：采用更高级的渐变质感 ⬇️ */
         .result-card { 
-            background: linear-gradient(135deg, #ffffff, #f7f9fb);
-            padding: 25px; 
+            background: #f8fafc;
+            padding: 30px; 
             border-radius: var(--radius); 
-            margin-top: 2.5rem; 
+            margin-top: 32px; 
             text-align: center; 
             border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius) var(--radius) 0 0;
         }
 
         .total-price { 
-            font-size: 2.2rem; 
-            font-weight: 700; 
-            color: var(--primary);
-            margin-top: 15px;
+            font-size: 3rem; 
+            font-weight: 800; 
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 12px 0;
         }
 
-        .note { font-size: 0.85rem; color: var(--text-sub); margin-top: 10px; line-height: 1.4; }
+        .note { font-size: 0.9rem; color: var(--text-sub); font-weight: 400; }
+
+        /* 响应式微调 */
+        @media (max-width: 600px) {
+            .container { padding: 24px; }
+            .total-price { font-size: 2.4rem; }
+        }
     </style>
 </head>
 <body>
 
     <img src="https://github.com/foreverai2026/ai-price-calculator/blob/main/%E9%A1%B6%E9%83%A8%E5%9B%BE_%E5%89%AF%E6%9C%AC.jpg?raw=true" alt="AI Cinematic Workflow" class="header-image">
+
     <div class="container">
-    <h2>AI Cinematic Cost Matrix 📊🎬</h2>
-    
-    <div class="group">
-        <label>FUNCTION MODULE 💡</label>
-        <select id="funcSelect" onchange="initModels()"></select>
-    </div>
+        <h2>AI Cinematic Cost Matrix 📊🎬</h2>
+        
+        <div class="group">
+            <label>Function Module 💡</label>
+            <select id="funcSelect" onchange="initModels()"></select>
+        </div>
 
-    <div class="group">
-        <label>MODEL UNIT 💻</label>
-        <select id="modelSelect" onchange="updateUI()"></select>
-    </div>
+        <div class="group">
+            <label>Model Unit 💻</label>
+            <select id="modelSelect" onchange="updateUI()"></select>
+        </div>
 
-    <div class="group" id="durationBox">
-        <label id="unitLabel">QUANTITY ⏱️</label>
-        <input type="number" id="quantity" value="5" oninput="calculate()">
-    </div>
+        <div class="group">
+            <label id="unitLabel">Quantity ⏱️</label>
+            <input type="number" id="quantity" value="5" oninput="calculate()">
+        </div>
 
-    <div class="result-card">
-        <label>TOTAL COST (RMB) 💰</label>
-        <div class="total-price" id="totalDisplay">¥ 0.00</div>
-        <div class="note" id="priceNote">Initializing...</div>
+        <div class="result-card">
+            <label>ESTIMATED TOTAL COST (RMB) 💰</label>
+            <div class="total-price" id="totalDisplay">¥ 0.00</div>
+            <div id="priceNote" class="note">Ready for calculation</div>
+        </div>
     </div>
-</div>
 
 <script>
+    // 逻辑部分保持不变，确保功能正常
     let rawData = {};
     const JSON_URL = 'https://raw.githubusercontent.com/foreverai2026/ai-price-calculator/main/prices.json';
 
@@ -173,7 +194,7 @@
             functions.forEach(f => funcSelect.add(new Option(f, f)));
             initModels();
         } catch (e) {
-            document.getElementById('priceNote').innerText = "Data load error ⚠️";
+            document.getElementById('priceNote').innerText = "Data Sync Error ⚠️";
         }
     }
 
@@ -189,8 +210,8 @@
     function updateUI() {
         const model = getSelectedModel();
         if(!model) return;
-        document.getElementById('unitLabel').innerText = `INPUT (${model.unit}) ⏱️`;
-        document.getElementById('priceNote').innerText = `Rate: ${model.price} ${model.currency} / ${model.unit}`;
+        document.getElementById('unitLabel').innerText = `Input (${model.unit}) ⏱️`;
+        document.getElementById('priceNote').innerText = `Current Rate: ${model.price} ${model.currency} / ${model.unit}`;
         calculate();
     }
 
@@ -212,7 +233,7 @@
         }
 
         if (model.currency === "USD") {
-            cost = cost * rawData.config.usd_to_rmb;
+            cost = cost * (rawData.config.usd_to_rmb || 7.2);
         } else if (model.currency === "Points") {
             cost = cost * 0.1; 
         }
