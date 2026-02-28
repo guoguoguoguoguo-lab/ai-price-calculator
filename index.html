@@ -3,44 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 影视全流程成本计算器</title>
+    <title>AI Cinematic Cost Matrix</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #6366f1; --bg: #f8fafc; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; color: #1e293b; }
-        .container { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.05); width: 100%; max-width: 450px; }
-        h2 { text-align: center; color: var(--primary); margin-bottom: 1.5rem; }
-        .group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; color: #64748b; }
-        select, input { width: 100%; padding: 0.8rem; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 1rem; outline: none; }
-        .result-card { background: #f1f5f9; padding: 1.2rem; border-radius: 12px; margin-top: 1.5rem; text-align: center; border: 2px solid var(--primary); }
-        .total-price { font-size: 2rem; font-weight: 800; color: var(--primary); }
-        .note { font-size: 0.75rem; color: #94a3b8; margin-top: 0.5rem; }
+        :root {
+            --bg-color: #f0f4f8; /* 浅灰蓝背景 */
+            --panel-bg: #ffffff;
+            --text-main: #2c3e50; /* 深蓝文字 */
+            --text-sub: #7f8c8d; /* 灰色文字 */
+            --primary: #3498db; /* 亮蓝色 */
+            --primary-light: #e6f2fa; /* 浅蓝背景 */
+            --border: #dfe6ee;
+            --radius: 10px;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center; /* 垂直居中 */
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* 防止背景网格溢出滚动 */
+            position: relative;
+        }
+
+        /* 科技感网格背景 */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(0deg, transparent 9%, rgba(0,0,0,.04) 10%, rgba(0,0,0,.04) 12%, transparent 13%),
+                              linear-gradient(90deg, transparent 9%, rgba(0,0,0,.04) 10%, rgba(0,0,0,.04) 12%, transparent 13%);
+            background-size: 50px 50px;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .container {
+            background: var(--panel-bg);
+            padding: 35px;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
+            width: 90%;
+            max-width: 480px;
+            border: 1px solid var(--border);
+            z-index: 1; /* 确保内容在网格之上 */
+            opacity: 0; /* 初始隐藏 */
+            animation: fadeIn 0.8s forwards ease-out; /* 淡入动画 */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .group { margin-bottom: 1.5rem; }
+        
+        label { 
+            display: block; 
+            font-size: 0.8rem; 
+            margin-bottom: 0.6rem; 
+            color: var(--text-sub);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            display: flex; /* 允许图标和文字对齐 */
+            align-items: center;
+        }
+        label::before { /* 小图标 */
+            content: attr(data-icon);
+            margin-right: 8px;
+            color: var(--primary);
+            font-size: 1em;
+        }
+
+
+        select, input { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 1px solid var(--border); 
+            border-radius: var(--radius); 
+            font-size: 1rem; 
+            background: var(--primary-light); /* 浅蓝色背景 */
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            -webkit-appearance: none; /* 移除原生 select 样式 */
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%233498db%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13%205.1L146.2%20200.2%2018.3%2074.5a17.6%2017.6%200%200%200-25.3%2023.7l137.4%20137.2c.7.7%201.7%201.2%202.6%201.6l1.3.8c.8.5%201.7.9%202.7%201.2s2.1.4%203.2.4%202.1-.1%203.2-.4c1-.3%201.9-.7%202.7-1.2l1.3-.8c.9-.4%201.9-.9%202.6-1.6L299.4%2098.2a17.6%2017.6%200%200%200-12.9-28.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+        }
+
+        select:focus, input:focus { 
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* 柔和的发光 */
+            background-color: white; /* 聚焦时变为白色背景 */
+        }
+
+        .result-card { 
+            background: linear-gradient(135deg, #ffffff, #f7f9fb);
+            padding: 25px; 
+            border-radius: var(--radius); 
+            margin-top: 2.5rem; 
+            text-align: center; 
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .result-card::before { /* 顶部装饰线 */
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .total-price { 
+            font-size: 2.4rem; 
+            font-weight: 700; 
+            color: var(--primary);
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .note { font-size: 0.85rem; color: var(--text-sub); margin-top: 10px; line-height: 1.4; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🎬 AI 影视成本助手</h2>
+    <h2>AI Cinematic Cost Matrix</h2>
     
     <div class="group">
-        <label>1. 选择功能环节</label>
-        <select id="funcSelect" onchange="initModels()"></select>
+        <label data-icon="&#x1F3A5;">FUNCTION MODULE</label> <select id="funcSelect" onchange="initModels()"></select>
     </div>
 
     <div class="group">
-        <label>2. 选择具体模型</label>
-        <select id="modelSelect" onchange="updateUI()"></select>
+        <label data-icon="&#x1F4BB;">MODEL UNIT</label> <select id="modelSelect" onchange="updateUI()"></select>
     </div>
 
     <div class="group" id="durationBox">
-        <label id="unitLabel">时长/数量</label>
-        <input type="number" id="quantity" value="5" oninput="calculate()">
+        <label data-icon="&#x23F1;">QUANTITY</label> <input type="number" id="quantity" value="5" oninput="calculate()">
     </div>
 
     <div class="result-card">
-        <label>预估总成本 (RMB)</label>
+        <label>TOTAL COST (RMB)</label>
         <div class="total-price" id="totalDisplay">¥ 0.00</div>
-        <div class="note" id="priceNote">加载中...</div>
+        <div class="note" id="priceNote">Initializing...</div>
     </div>
 </div>
 
@@ -49,12 +173,16 @@
     const JSON_URL = 'https://raw.githubusercontent.com/foreverai2026/ai-price-calculator/main/prices.json';
 
     async function loadData() {
-        const res = await fetch(JSON_URL);
-        rawData = await res.json();
-        const functions = [...new Set(rawData.models.map(m => m.function))];
-        const funcSelect = document.getElementById('funcSelect');
-        functions.forEach(f => funcSelect.add(new Option(f, f)));
-        initModels();
+        try {
+            const res = await fetch(JSON_URL);
+            rawData = await res.json();
+            const functions = [...new Set(rawData.models.map(m => m.function))];
+            const funcSelect = document.getElementById('funcSelect');
+            functions.forEach(f => funcSelect.add(new Option(f, f)));
+            initModels();
+        } catch (e) {
+            document.getElementById('priceNote').innerText = "数据加载失败，请检查网络或稍后重试。";
+        }
     }
 
     function initModels() {
@@ -68,8 +196,14 @@
 
     function updateUI() {
         const model = getSelectedModel();
-        document.getElementById('unitLabel').innerText = `输入数量 (${model.unit})`;
-        document.getElementById('priceNote').innerText = `单价: ${model.price} ${model.currency} / ${model.unit}`;
+        if(!model) {
+             document.getElementById('unitLabel').innerText = "QUANTITY";
+             document.getElementById('priceNote').innerText = "请选择一个模型";
+             document.getElementById('totalDisplay').innerText = "¥ 0.00";
+             return;
+        }
+        document.getElementById('unitLabel').innerText = `INPUT (${model.unit})`;
+        document.getElementById('priceNote').innerText = `Rate: ${model.price} ${model.currency} / ${model.unit}`;
         calculate();
     }
 
@@ -80,19 +214,24 @@
 
     function calculate() {
         const model = getSelectedModel();
+        if(!model) return;
         const q = parseFloat(document.getElementById('quantity').value) || 0;
         let cost = 0;
 
-        // 核心计算逻辑
         if (model.unit === "5秒") {
             cost = Math.ceil(q / 5) * model.price;
-        } else {
+        } else if (model.unit === "调用") { // 新增的“调用”单位处理
+            cost = q * model.price;
+        }
+        else {
             cost = q * model.price;
         }
 
-        // 汇率转换 (如果是美元)
         if (model.currency === "USD") {
             cost = cost * rawData.config.usd_to_rmb;
+        } else if (model.currency === "Points") {
+            // 假设积分换算逻辑：1积分 = 0.1 RMB，可根据实际情况调整
+            cost = cost * 0.1; 
         }
 
         document.getElementById('totalDisplay').innerText = `¥ ${cost.toFixed(2)}`;
@@ -102,4 +241,3 @@
 </script>
 </body>
 </html>
-
