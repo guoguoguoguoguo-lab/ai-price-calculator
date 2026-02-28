@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 创作成本计算器 Pro</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root { --primary: #6366f1; --bg: #f8fafc; --card-bg: rgba(255, 255, 255, 0.8); }
+        body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; color: #1e293b; }
+        .container { background: var(--card-bg); backdrop-filter: blur(10px); padding: 2rem; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); width: 90%; max-width: 450px; border: 1px solid rgba(255, 255, 255, 0.5); }
+        h2 { text-align: center; margin-bottom: 1.5rem; font-size: 1.5rem; background: linear-gradient(to right, #4f46e5, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .input-group { margin-bottom: 1.2rem; }
+        label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: #475569; }
+        select, input { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; background: white; font-size: 1rem; transition: all 0.3s; outline: none; }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        button { width: 100%; background: var(--primary); color: white; padding: 1rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, background 0.2s; margin-top: 1rem; }
+        button:hover { background: #4f46e5; transform: translateY(-2px); }
+        #result-area { margin-top: 1.5rem; display: none; }
+        .model-card { background: white; padding: 1rem; border-radius: 16px; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f5f9; animation: slideUp 0.4s ease-out forwards; }
+        .model-info { display: flex; align-items: center; gap: 8px; }
+        .model-name { font-weight: bold; color: #1e293b; }
+        .price-tag { color: #059669; font-weight: 700; font-size: 1.1rem; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2><i data-lucide="calculator" style="vertical-align: middle;"></i> AI 成本估算器</h2>
+    <div class="input-group">
+        <label>创作类型</label>
+        <select id="type" onchange="updateUI()">
+            <option value="video">🎥 视频生成</option>
+            <option value="image">🎨 图像生成</option>
+        </select>
+    </div>
+    <div class="grid">
+        <div class="input-group">
+            <label>分辨率/模式</label>
+            <select id="quality">
+                <option value="std">标准模式</option>
+                <option value="pro">专业/高清</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label id="count-label">生成数量</label>
+            <input type="number" id="count" value="1" min="1">
+        </div>
+    </div>
+    <div class="input-group" id="duration-box">
+        <label>单段时长 (秒)</label>
+        <input type="number" id="duration" value="5" step="1">
+    </div>
+    <button onclick="calculate()">立即计算成本</button>
+    <div id="result-area">
+        <label>对比估算 (RMB):</label>
+        <div id="price-list"></div>
+    </div>
+</div>
+
+<script>
+    // 自动读取仓库中的 prices.json
+    let PRICE_DATA = {};
+    // ⚠️ 已经替换为您的用户名: guoguoguoguoguo-lab
+    const JSON_URL = 'https://raw.githubusercontent.com/guoguoguoguoguo-lab/ai-price-calculator/main/prices.json';
+
+    async function fetchPrices() {
+        try {
+            const response = await fetch(JSON_URL);
+            PRICE_DATA = await response.json();
+            console.log("价格数据已加载");
+        } catch (err) {
+            console.error("加载失败，使用默认值", err);
+            // 备用数据，防止连接失败显示为空
+            PRICE_DATA = {
+                "kling": { "name": "可灵 (Kling)", "video_std": 0.2, "video_pro": 1.0, "image": 0.1 },
+                "jimeng": { "name": "即梦 (Jimeng)", "video_std": 0.25, "video_pro": 1.2, "image": 0.15 },
+                "vidu": { "name": "Vidu", "video_std": 0.3, "video_pro": 1.5, "image": 0.2 }
+            };
+        }
+    }
+    fetchPrices();
+
+    function updateUI() {
+        const type = document.getElementById('type').value;
+        document.getElementById('duration-box').style.display = (type === 'video') ? 'block' : 'none';
+        document.getElementById('count-label').innerText = (type === 'video') ? '视频段数' : '生成张数';
+    }
+
+    function calculate() {
+        const type = document.getElementById('type').value;
+        const quality = document.getElementById('quality').value;
+        const count = parseInt(document.getElementById('count').value);
+        const duration = parseFloat(document.getElementById('duration').value);
+        const listContainer = document.getElementById('price-list');
+        listContainer.innerHTML = '';
+        document.getElementById('result-area').style.display = 'block';
+
+        for (const key in PRICE_DATA) {
+            const model = PRICE_DATA[key];
+            let cost = 0;
+            if (type === 'video') {
+                let unit = quality === 'std' ? model.video_std : model.video_pro;
+                cost = (duration / 5) * unit * count;
+            } else {
+                cost = model.image * count;
+            }
+            const card = document.createElement('div');
+            card.className = 'model-card';
+            card.innerHTML = `<div class="model-info"><span class="model-name">${model.name}</span></div><div class="price-tag">¥${cost.toFixed(2)}</div>`;
+            listContainer.appendChild(card);
+        }
+    }
+    lucide.createIcons();
+</script>
+</body>
+</html>
