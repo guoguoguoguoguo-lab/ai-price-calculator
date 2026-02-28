@@ -1,0 +1,5 @@
+{
+  "kling": { "name": "可灵 (Kling)", "video_std": 0.2, "video_pro": 1.0, "image": 0.1 },
+  "jimeng": { "name": "即梦 (Jimeng)", "video_std": 0.25, "video_pro": 1.2, "image": 0.15 },
+  "vidu": { "name": "Vidu", "video_std": 0.3, "video_pro": 1.5, "image": 0.2 }
+}
