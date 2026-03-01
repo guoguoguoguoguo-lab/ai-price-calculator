@@ -4,11 +4,53 @@
     "last_update": "2026-02-27"
   },
   "models": [
-    { "official_id": "sora-2", "function": "AI影视-文生视频", "name": "Sora 2 (OpenAI)", "unit": "秒", "price": 0.1, "currency": "USD" },
-    { "official_id": "doubao-seedance-pro-1.5", "function": "AI影视-文生视频", "name": "豆包-seedance-pro-1.5", "unit": "5秒", "price": 3.89, "currency": "RMB" },
-    { "official_id": "kling-v2-6", "function": "AI影视-文生视频", "name": "可灵 (kling-v2-6) Pro", "unit": "5秒", "price": 1.5, "currency": "Points" },
-    { "official_id": "kling-video-o1", "function": "AI影视-文生视频", "name": "可灵 (kling-video-o1)", "unit": "秒", "price": 0.8, "currency": "Points" },
-    { "official_id": "seedream-4-5", "function": "AI影视-文生图", "name": "豆包生图 (seedream-4-5)", "unit": "张", "price": 0.25, "currency": "RMB" },
-    { "official_id": "star-3Alpha", "function": "AI影视-分镜/角色", "name": "星流 star-3Alpha", "unit": "张", "price": 0.092, "currency": "RMB" }
+    {
+      "official_id": "sora-2",
+      "function": "AI影视-文生视频",
+      "name": "Sora 2 (OpenAI)",
+      "unit": "秒",
+      "price": 0.1,
+      "currency": "USD"
+    },
+    {
+      "official_id": "doubao-seedance-pro-1.5",
+      "function": "AI影视-文生视频",
+      "name": "豆包-seedance-pro-1.5",
+      "unit": "5秒",
+      "price": 3.89,
+      "currency": "RMB"
+    },
+    {
+      "official_id": "kling-v2-6",
+      "function": "AI影视-文生视频",
+      "name": "可灵 (kling-v2-6) Pro",
+      "unit": "5秒",
+      "price": 1.5,
+      "currency": "Points"
+    },
+    {
+      "official_id": "kling-video-o1",
+      "function": "AI影视-文生视频",
+      "name": "可灵 (kling-video-o1)",
+      "unit": "秒",
+      "price": 0.8,
+      "currency": "Points"
+    },
+    {
+      "official_id": "seedream-4-5",
+      "function": "AI影视-文生图",
+      "name": "豆包生图 (seedream-4-5)",
+      "unit": "张",
+      "price": 0.25,
+      "currency": "RMB"
+    },
+    {
+      "official_id": "star-3Alpha",
+      "function": "AI影视-分镜/角色",
+      "name": "星流 star-3Alpha",
+      "unit": "张",
+      "price": 0.092,
+      "currency": "RMB"
+    }
   ]
 }
