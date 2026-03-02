@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 运营成本与定价看板 📊🎬</title>
+    <title>AI 运营成本与定价看板</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -65,7 +65,6 @@
             color: #1e293b;
         }
 
-        /* 顶部装饰条 */
         .title-line {
             width: 40px;
             height: 4px;
@@ -78,7 +77,7 @@
             font-size: 0.85rem;
             color: var(--text-sub);
             margin-bottom: 20px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .grid-3 {
@@ -131,21 +130,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* 辅助说明文案专用样式 */
-        .info-alert {
-            background: #f0f4ff;
-            border-left: 4px solid #6366f1;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            border-radius: 4px 12px 12px 4px;
-        }
-        .info-alert p {
-            margin: 0;
-            font-size: 0.88rem;
-            color: #4338ca;
-            font-weight: 500;
-        }
-
         @media (max-width: 600px) {
             .grid-3 { grid-template-columns: 1fr; }
         }
@@ -157,9 +141,9 @@
 
     <div class="container">
         <div class="card">
-            <div class="section-title">01 模型库与单价查询 🔍</div>
+            <div class="section-title">🔍 01 模型库与单价查询</div>
             <div class="title-line"></div>
-            <div class="section-desc">同步市面热门 AI 模型计费规则，实时查询 API 原始采购成本。</div>
+            <div class="section-desc">📑 同步市面热门 AI 模型计费规则，实时查询 API 原始采购成本。</div>
             <div class="grid-3">
                 <div class="group">
                     <label>生成能力</label>
@@ -182,9 +166,9 @@
         </div>
 
         <div class="card">
-            <div class="section-title">02 生产成本核算器 🧮</div>
+            <div class="section-title">🧮 02 生产成本核算器</div>
             <div class="title-line"></div>
-            <div class="section-desc">根据预期的生成规模，快速估算本次生产任务的原始 API 支出总额。</div>
+            <div class="section-desc">📏 根据预期的生成规模，快速估算本次生产任务的原始 API 支出总额。</div>
             <div class="group">
                 <label id="inputLabel">输入生成数量 (整数)</label>
                 <input type="number" id="quantity" value="1" step="1" oninput="this.value=this.value.replace(/\D/g,'');calculateAll()">
@@ -196,14 +180,9 @@
         </div>
 
         <div class="card" style="border: 1px solid #c7d2fe;">
-            <div class="section-title">03 商业零售定价助手 💡</div>
+            <div class="section-title">💡 03 商业零售定价助手</div>
             <div class="title-line"></div>
-            
-            <div class="info-alert">
-                <p>💡 提示：如果你通过 API 调用后向用户收费，则可用此功能辅助计算零售定价。</p>
-            </div>
-
-            <div class="section-desc">基于成本单价，通过调整 ROI（投资回报倍数）来核算面向终端用户的建议零售价格。</div>
+            <div class="section-desc">📢 如果你通过 API 调用后向用户收费，则可用此功能辅助计算零售定价。基于成本单价，通过调整 ROI（投资回报倍数）来核算面向终端用户的建议零售价格。</div>
             
             <div class="grid-3" style="grid-template-columns: 1fr 2.5fr;">
                 <div class="group">
@@ -219,10 +198,6 @@
     </div>
 
 <script>
-    // 逻辑部分保持最新要求：
-    // 1. 涉及到钱保留两位
-    // 2. 区域二不取整
-    // 3. 区域三执行“分”级向上取整
     let rawData = {};
     const JSON_URL = 'https://raw.githubusercontent.com/foreverai2026/ai-price-calculator/main/prices.json';
 
@@ -268,14 +243,16 @@
 
         document.getElementById('unitPriceDisplay').innerText = `¥ ${priceInRMB.toFixed(2)}`;
         document.getElementById('unitTypeNote').innerText = `计费单位：${model.unit} | 原始报价：${model.price}${model.currency}`;
-        document.getElementById('inputLabel').innerText = `输入生成数量 / 时长 (${model.unit})`;
+        document.getElementById('inputLabel').innerText = `⏱️ 输入生成数量 / 时长 (${model.unit})`;
         
         calculateAll();
     }
 
     function getSelectedModel() {
         const id = document.getElementById('versionSelect').value;
-        return rawData.models.find(m => m.official_id === id);
+        return rawData.models.find(m => m.function === document.getElementById('funcSelect').value && 
+                                       m.provider === document.getElementById('providerSelect').value && 
+                                       m.official_id === id);
     }
 
     function calculateAll() {
@@ -286,7 +263,6 @@
         if(model.currency === "USD") basePrice *= (rawData.config.usd_to_rmb || 7.2);
         if(model.currency === "Points") basePrice *= 0.1;
 
-        // 区域二：成本直接展示（保留两位）
         const qInput = document.getElementById('quantity');
         const q = Math.floor(parseFloat(qInput.value)) || 0; 
         
@@ -298,7 +274,6 @@
         }
         document.getElementById('totalCostDisplay').innerText = `¥ ${totalCost.toFixed(2)}`;
 
-        // 区域三：分级向上取整
         const roi = parseFloat(document.getElementById('roiInput').value) || 1;
         let rawSuggested = basePrice * roi;
         const finalSuggested = Math.ceil(rawSuggested * 100) / 100;
