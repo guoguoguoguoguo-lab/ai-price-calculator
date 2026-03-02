@@ -47,7 +47,6 @@
             gap: 24px;
         }
 
-        /* 通用卡片样式 */
         .card {
             background: var(--panel-bg);
             padding: 30px;
@@ -102,7 +101,6 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        /* 结果展示区 */
         .result-box {
             background: #f8fafc;
             padding: 20px;
@@ -153,7 +151,7 @@
                 </div>
             </div>
             <div class="result-box">
-                <label>当前模型单价</label>
+                <label>折合成本单价 (RMB)</label>
                 <div id="unitPriceDisplay" class="highlight-text">¥ 0.00</div>
                 <div id="unitTypeNote" class="note" style="font-size: 0.85rem; color: #64748b;">--</div>
             </div>
@@ -166,14 +164,14 @@
                 <input type="number" id="quantity" value="1" oninput="calculateAll()">
             </div>
             <div class="result-box" style="background: #f1f5f9;">
-                <label>预计总生成成本</label>
+                <label>总成本 (向上取整)</label>
                 <div id="totalCostDisplay" class="highlight-text" style="font-size: 2.5rem;">¥ 0.00</div>
             </div>
         </div>
 
         <div class="card" style="border: 1px solid #c7d2fe;">
             <div class="section-title">03 商业定价辅助方案 💡</div>
-            <p class="hint">如果您通过 API 调用向用户收费，请设定预期的 ROI（投资回报率）来计算建议零售价。</p>
+            <p class="hint">ROI 模式：建议定价 = 单价 × ROI。结果执行向上取整，防止长尾亏损。</p>
             <div class="grid-3" style="grid-template-columns: 1fr 2fr;">
                 <div class="group">
                     <label>设定 ROI (倍数)</label>
@@ -195,12 +193,9 @@
         try {
             const res = await fetch(JSON_URL);
             rawData = await res.json();
-            
-            // 初始化功能列表
             const functions = [...new Set(rawData.models.map(m => m.function))];
             const funcSelect = document.getElementById('funcSelect');
             functions.forEach(f => funcSelect.add(new Option(f, f)));
-            
             filterProviders();
         } catch (e) {
             console.error("数据加载失败");
@@ -230,13 +225,13 @@
         const model = getSelectedModel();
         if(!model) return;
         
-        // 处理汇率换算（如果是美元计价）
         let priceInRMB = model.price;
         if(model.currency === "USD") priceInRMB = model.price * (rawData.config.usd_to_rmb || 7.2);
-        if(model.currency === "Points") priceInRMB = model.price * 0.1; // 假设1积分=0.1元
+        if(model.currency === "Points") priceInRMB = model.price * 0.1;
 
-        document.getElementById('unitPriceDisplay').innerText = `¥ ${priceInRMB.toFixed(4)}`;
-        document.getElementById('unitTypeNote').innerText = `计费单位：${model.unit} | 原始定价：${model.price}${model.currency}`;
+        // 涉及到钱的字段，保留两位小数
+        document.getElementById('unitPriceDisplay').innerText = `¥ ${priceInRMB.toFixed(2)}`;
+        document.getElementById('unitTypeNote').innerText = `单位：${model.unit} | 原始：${model.price}${model.currency}`;
         document.getElementById('inputLabel').innerText = `输入生成数量 / 时长 (${model.unit})`;
         
         calculateAll();
@@ -251,25 +246,29 @@
         const model = getSelectedModel();
         if(!model) return;
 
-        // 1. 获取基础单价 (RMB)
         let basePrice = model.price;
         if(model.currency === "USD") basePrice *= (rawData.config.usd_to_rmb || 7.2);
         if(model.currency === "Points") basePrice *= 0.1;
 
-        // 2. 计算区域二：生成成本
+        // 1. 计算总成本
         const q = parseFloat(document.getElementById('quantity').value) || 0;
-        let totalCost = 0;
+        let rawTotal = 0;
         if (model.unit === "5秒") {
-            totalCost = Math.ceil(q / 5) * basePrice;
+            rawTotal = Math.ceil(q / 5) * basePrice;
         } else {
-            totalCost = q * basePrice;
+            rawTotal = q * basePrice;
         }
-        document.getElementById('totalCostDisplay').innerText = `¥ ${totalCost.toFixed(2)}`;
+        
+        // 计算结果均向上取整 (Ceil)，并保留两位小数
+        const finalTotal = Math.ceil(rawTotal); 
+        document.getElementById('totalCostDisplay').innerText = `¥ ${finalTotal.toFixed(2)}`;
 
-        // 3. 计算区域三：ROI 建议定价
+        // 2. 辅助定价计算
         const roi = parseFloat(document.getElementById('roiInput').value) || 1;
-        const featurePrice = basePrice * roi;
-        document.getElementById('suggestedPrice').innerText = `¥ ${featurePrice.toFixed(2)} / ${model.unit}`;
+        const rawSuggested = basePrice * roi;
+        // 同样执行向上取整
+        const finalSuggested = Math.ceil(rawSuggested);
+        document.getElementById('suggestedPrice').innerText = `¥ ${finalSuggested.toFixed(2)} / ${model.unit}`;
     }
 
     loadData();
