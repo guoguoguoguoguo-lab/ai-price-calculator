@@ -12,7 +12,7 @@
       "provider": "即梦",
       "name": "文生图3.0",
       "official_id": "jm-img-3.0",
-      "price": 0.20,
+      "price": 0.2,
       "currency": "RMB",
       "unit": "张"
     },
@@ -21,7 +21,7 @@
       "provider": "即梦",
       "name": "文生图3.1",
       "official_id": "jm-img-3.1",
-      "price": 0.20,
+      "price": 0.2,
       "currency": "RMB",
       "unit": "张"
     },
@@ -39,7 +39,7 @@
       "provider": "即梦",
       "name": "视频生成3.0 Pro (1080p)",
       "official_id": "jm-vid-3.0-pro",
-      "price": 1.00,
+      "price": 1.0,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -111,7 +111,7 @@
       "provider": "豆包",
       "name": "doubao-seedream-4.0",
       "official_id": "db-img-4.0",
-      "price": 0.20,
+      "price": 0.2,
       "currency": "RMB",
       "unit": "张"
     },
@@ -129,7 +129,7 @@
       "provider": "豆包",
       "name": "doubao-seededit-3.0-i2i",
       "official_id": "db-img-3.0-i2i",
-      "price": 0.30,
+      "price": 0.3,
       "currency": "RMB",
       "unit": "张"
     },
@@ -138,7 +138,7 @@
       "provider": "可灵",
       "name": "Kling-V3-Omni (720p/无参考无声)",
       "official_id": "kl-vid-v3-omni-720-std",
-      "price": 0.60,
+      "price": 0.6,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -147,7 +147,7 @@
       "provider": "可灵",
       "name": "Kling-V3-Omni (720p/无参考有声)",
       "official_id": "kl-vid-v3-omni-720-sound",
-      "price": 0.80,
+      "price": 0.8,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -156,7 +156,7 @@
       "provider": "可灵",
       "name": "Kling-V3-Omni (720p/有参考无声)",
       "official_id": "kl-vid-v3-omni-720-ref",
-      "price": 0.90,
+      "price": 0.9,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -165,7 +165,7 @@
       "provider": "可灵",
       "name": "Kling-V3-Omni (1080p/无参考无声)",
       "official_id": "kl-vid-v3-omni-1080-std",
-      "price": 0.80,
+      "price": 0.8,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -174,7 +174,7 @@
       "provider": "可灵",
       "name": "Kling-V3-Omni (1080p/无参考有声)",
       "official_id": "kl-vid-v3-omni-1080-sound",
-      "price": 1.00,
+      "price": 1.0,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -183,7 +183,7 @@
       "provider": "可灵",
       "name": "Kling-V3-Omni (1080p/有参考无声)",
       "official_id": "kl-vid-v3-omni-1080-ref",
-      "price": 1.20,
+      "price": 1.2,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -192,7 +192,7 @@
       "provider": "可灵",
       "name": "Kling-image-01",
       "official_id": "kl-img-01",
-      "price": 0.20,
+      "price": 0.2,
       "currency": "RMB",
       "unit": "张"
     },
@@ -201,7 +201,7 @@
       "provider": "可灵",
       "name": "Kling-V2-1",
       "official_id": "kl-img-v2-1",
-      "price": 0.10,
+      "price": 0.1,
       "currency": "RMB",
       "unit": "张"
     },
@@ -210,7 +210,7 @@
       "provider": "可灵",
       "name": "Kling-V2-new",
       "official_id": "kl-img-v2-new",
-      "price": 0.20,
+      "price": 0.2,
       "currency": "RMB",
       "unit": "张"
     },
@@ -219,7 +219,7 @@
       "provider": "Vidu",
       "name": "viduq3-pro (1080p)",
       "official_id": "vd-vid-q3-pro-1080",
-      "price": 1.00,
+      "price": 1.0,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -246,7 +246,7 @@
       "provider": "Vidu",
       "name": "viduq3-turbo (1080p)",
       "official_id": "vd-vid-q3-turbo-1080",
-      "price": 0.50,
+      "price": 0.5,
       "currency": "RMB",
       "unit": "秒"
     },
@@ -336,7 +336,7 @@
       "provider": "Vidu",
       "name": "viduq2 (4~7张参考/2K)",
       "official_id": "vd-img-q2-4ref-2k",
-      "price": 0.50,
+      "price": 0.5,
       "currency": "RMB",
       "unit": "张"
     },
